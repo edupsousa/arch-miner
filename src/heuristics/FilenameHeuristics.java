@@ -40,6 +40,13 @@ public class FilenameHeuristics implements RoleHeuristics {
 		return this;
 	}
 	
+	public FilenameHeuristics mapFilenames(String role, String ... filenames) {
+		for (String filename : filenames) {
+			this.mapFilename(role, filename);
+		}
+		return this;
+	}
+	
 	public FilenameHeuristics mapFilename(String role, String filename) {
 		if (this.filenameMap == null)
 			this.filenameMap = new HashMap<>();

@@ -40,11 +40,15 @@ public class ArchitectureVisitor implements CommitVisitor {
 				.mapExtensions("view:page", "htm", "html", "jsp", "jspx")
 				.mapExtensions("view:script", "js", "ts", "coffee")
 				.mapExtensions("view:style", "css", "sass", "less")
-				.mapExtensions("view:image", "png", "gif", "jpg", "jpeg")
+				.mapExtensions("view:image", "png", "gif", "jpg", "jpeg", "svg")
 				.mapExtensions("configuration:generic", "xml", "json", "properties", "yml", "gradle", "config")
 				.mapExtensions("model:sql", "sql")
 				.mapExtensions("documentation", "md")
-				.mapFilename("configuration:docker", "dockerfile");
+				.mapFilenames("configuration:docker", "dockerfile")
+				.mapFilenames("configuration:gradle", "gradlew", "gradlew.bat")
+				.mapFilenames("configuration:git", ".gitignore")
+				.mapFilenames("configuration:bower", ".bowerrc")
+				.mapFilenames("configuration:license", "license");
 		strategy.addOtherHeuristic(extensionHeuristic);
 		
 		return strategy;
