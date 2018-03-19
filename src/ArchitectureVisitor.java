@@ -9,6 +9,7 @@ import org.repodriller.scm.SCMRepository;
 
 import heuristics.java.ClassAnnotationHeuristics;
 import heuristics.java.ClassNameHeuristics;
+import heuristics.java.ImportsHeuristics;
 import heuristics.java.PackageHeuristics;
 import heuristics.other.FilePathHeuristics;
 import heuristics.other.FilenameHeuristics;
@@ -75,6 +76,10 @@ public class ArchitectureVisitor implements CommitVisitor {
 				.mapPackageNameRegex("model:*", ".*\\.controller(s)?(\\..*)?")
 				.mapPackageNameRegex("controller:*", ".*\\.model(s)?(\\..*)?");
 		strategy.addJavaHeuristic(packageHeuristics);
+		
+		ImportsHeuristics importsHeuristics = new ImportsHeuristics()
+				.mapImportStartsWith("model:dao", "ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column");
+		strategy.addJavaHeuristic(importsHeuristics);
 		
 		return strategy;
 	}
