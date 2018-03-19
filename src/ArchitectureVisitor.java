@@ -9,6 +9,7 @@ import org.repodriller.scm.SCMRepository;
 
 import heuristics.java.ClassAnnotationHeuristics;
 import heuristics.java.ClassNameHeuristics;
+import heuristics.java.PackageHeuristics;
 import heuristics.other.FilePathHeuristics;
 import heuristics.other.FilenameHeuristics;
 import role.RoleMappingStrategy;
@@ -69,6 +70,11 @@ public class ArchitectureVisitor implements CommitVisitor {
 				.mapAnnotatedWith("model:business-rules", "@Service")
 				.mapAnnotatedWith("model:persistence", "@Repository");
 		strategy.addJavaHeuristic(classAnnotationHeuristics);
+		
+		PackageHeuristics packageHeuristics = new PackageHeuristics()
+				.mapPackageNameRegex("model:*", ".*\\.controller(s)?(\\..*)?")
+				.mapPackageNameRegex("controller:*", ".*\\.model(s)?(\\..*)?");
+		strategy.addJavaHeuristic(packageHeuristics);
 		
 		return strategy;
 	}
