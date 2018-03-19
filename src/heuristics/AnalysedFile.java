@@ -18,4 +18,8 @@ public class AnalysedFile {
 	public String getFilename() {
 		return file.getFile().getName().toLowerCase();
 	}
+	
+	public String getPath() {
+		return FilenameUtils.getPath(file.getFullName());
+	}
 }

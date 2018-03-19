@@ -7,6 +7,7 @@ import org.repodriller.scm.CommitVisitor;
 import org.repodriller.scm.RepositoryFile;
 import org.repodriller.scm.SCMRepository;
 
+import heuristics.FilePathHeuristics;
 import heuristics.FilenameHeuristics;
 import role.RoleMappingStrategy;
 
@@ -36,20 +37,25 @@ public class ArchitectureVisitor implements CommitVisitor {
 	
 	public RoleMappingStrategy createMappingStrategy() {
 		RoleMappingStrategy strategy = new RoleMappingStrategy();
-		FilenameHeuristics extensionHeuristic = new FilenameHeuristics()
+		FilenameHeuristics filenameHeuristic = new FilenameHeuristics()
 				.mapExtensions("view:page", "htm", "html", "jsp", "jspx")
 				.mapExtensions("view:script", "js", "ts", "coffee")
 				.mapExtensions("view:style", "css", "sass", "less")
 				.mapExtensions("view:image", "png", "gif", "jpg", "jpeg", "svg")
 				.mapExtensions("configuration:generic", "xml", "json", "properties", "yml", "gradle", "config")
 				.mapExtensions("model:sql", "sql")
-				.mapExtensions("documentation", "md")
+				.mapExtensions("documentation:*", "md")
 				.mapFilenames("configuration:docker", "dockerfile")
 				.mapFilenames("configuration:gradle", "gradlew", "gradlew.bat")
 				.mapFilenames("configuration:git", ".gitignore")
 				.mapFilenames("configuration:bower", ".bowerrc")
 				.mapFilenames("configuration:license", "license");
-		strategy.addOtherHeuristic(extensionHeuristic);
+		strategy.addOtherHeuristic(filenameHeuristic);
+		
+		FilePathHeuristics pathHeuristics = new FilePathHeuristics()
+				.mapDirectory("view:*", "webapp")
+				.mapDirectory("view:*", "bower_components");
+		strategy.addOtherHeuristic(pathHeuristics);
 		
 		return strategy;
 	}
