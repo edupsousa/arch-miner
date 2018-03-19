@@ -1,9 +1,12 @@
-package heuristics;
+package heuristics.other;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
+
+import heuristics.AnalysedFile;
+import heuristics.RoleHeuristics;
 
 public class FilePathHeuristics implements RoleHeuristics {
 

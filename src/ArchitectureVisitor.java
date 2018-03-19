@@ -7,10 +7,10 @@ import org.repodriller.scm.CommitVisitor;
 import org.repodriller.scm.RepositoryFile;
 import org.repodriller.scm.SCMRepository;
 
-import heuristics.ClassAnnotationHeuristics;
-import heuristics.ClassNameHeuristics;
-import heuristics.FilePathHeuristics;
-import heuristics.FilenameHeuristics;
+import heuristics.java.ClassAnnotationHeuristics;
+import heuristics.java.ClassNameHeuristics;
+import heuristics.other.FilePathHeuristics;
+import heuristics.other.FilenameHeuristics;
 import role.RoleMappingStrategy;
 
 public class ArchitectureVisitor implements CommitVisitor {

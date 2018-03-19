@@ -1,10 +1,14 @@
-package heuristics;
+package heuristics.java;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+
+import heuristics.AnalysedFile;
+import heuristics.RoleHeuristics;
+import heuristics.RoleVisitor;
 
 public class ClassNameHeuristics implements RoleHeuristics {
 	private Map<String, String> nameRegex;
