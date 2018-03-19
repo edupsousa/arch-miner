@@ -1,10 +1,15 @@
 package heuristics;
 
 import org.apache.commons.io.FilenameUtils;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTParser;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.repodriller.scm.RepositoryFile;
 
 public class AnalysedFile {
-	protected RepositoryFile file;
+	private RepositoryFile file;
+	private CompilationUnit astRoot = null;
 
 	public AnalysedFile(RepositoryFile file) {
 		super();
@@ -21,5 +26,19 @@ public class AnalysedFile {
 	
 	public String getPath() {
 		return FilenameUtils.getPath(file.getFullName());
+	}
+	
+	public CompilationUnit getASTRoot() {
+		if (!this.getExtension().equals("java"))
+			return null;
+		
+		if (this.astRoot == null) {
+			ASTParser parser = ASTParser.newParser(AST.JLS9);
+			parser.setCompilerOptions(JavaCore.getOptions());
+			parser.setSource(this.file.getSourceCode().toCharArray());
+			parser.setKind(ASTParser.K_COMPILATION_UNIT);
+			this.astRoot = (CompilationUnit) parser.createAST(null);
+		}
+		return this.astRoot;
 	}
 }

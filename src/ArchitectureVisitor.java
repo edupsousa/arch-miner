@@ -7,6 +7,7 @@ import org.repodriller.scm.CommitVisitor;
 import org.repodriller.scm.RepositoryFile;
 import org.repodriller.scm.SCMRepository;
 
+import heuristics.ClassNameHeuristic;
 import heuristics.FilePathHeuristics;
 import heuristics.FilenameHeuristics;
 import role.RoleMappingStrategy;
@@ -56,6 +57,10 @@ public class ArchitectureVisitor implements CommitVisitor {
 				.mapDirectory("view:*", "webapp")
 				.mapDirectory("view:*", "bower_components");
 		strategy.addOtherHeuristic(pathHeuristics);
+		
+		ClassNameHeuristic classNameHeuristics = new ClassNameHeuristic();
+		classNameHeuristics.mapClassNameSuffix("controller:controller", "Controller");
+		strategy.addJavaHeuristic(classNameHeuristics);
 		
 		return strategy;
 	}
