@@ -59,7 +59,7 @@ public class ArchitectureVisitor implements CommitVisitor {
 		strategy.addOtherHeuristic(pathHeuristics);
 		
 		ClassNameHeuristic classNameHeuristics = new ClassNameHeuristic();
-		classNameHeuristics.mapClassNameSuffix("controller:controller", "Controller");
+		classNameHeuristics.mapClassNameRegex("controller:controller", "\\w+Controller$");
 		strategy.addJavaHeuristic(classNameHeuristics);
 		
 		return strategy;
