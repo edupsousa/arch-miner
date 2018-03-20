@@ -7,10 +7,11 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 
 import heuristics.AnalysedFile;
-import heuristics.RoleHeuristics;
+import heuristics.ConfigurableHeuristics;
 import heuristics.RoleVisitor;
+import heuristics.UnrecognizedHeuristicKey;
 
-public class ImportsHeuristics implements RoleHeuristics {
+public class ImportsHeuristics implements ConfigurableHeuristics {
 	private Map<String, String> startsWith;
 	
 	@Override
@@ -49,11 +50,23 @@ public class ImportsHeuristics implements RoleHeuristics {
 		return visitor.getRole();
 	}
 	
-	public ImportsHeuristics mapImportStartsWith(String role, String importStart) {
+	public ImportsHeuristics mapImportStartsWith(String role, String ... importStarts) {
 		if (this.startsWith == null)
 			this.startsWith = new HashMap<>();
-		this.startsWith.put(importStart, role);
+		for (String importStart : importStarts) {
+			this.startsWith.put(importStart, role);
+		}
 		return this;
+	}
+
+	@Override
+	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+			throws UnrecognizedHeuristicKey {
+		if (key.equals("startsWith")) {
+			return this.mapImportStartsWith(role, parameters);
+		} else {
+			throw new UnrecognizedHeuristicKey();
+		}
 	}
 
 }

@@ -9,11 +9,12 @@ import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import heuristics.AnalysedFile;
-import heuristics.RoleHeuristics;
+import heuristics.ConfigurableHeuristics;
 import heuristics.RoleVisitor;
+import heuristics.UnrecognizedHeuristicKey;
 
-public class ClassAnnotationHeuristics implements RoleHeuristics {
-	private Map<String, String> annotatedWith;
+public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
+	private Map<String, String> annotation;
 	
 	@Override
 	public String getName() {
@@ -42,8 +43,8 @@ public class ClassAnnotationHeuristics implements RoleHeuristics {
 			boolean setRoleByAnnotation(List<?> modifiers) {
 				for (Object modifier : modifiers) {
 					IExtendedModifier eModifier = (IExtendedModifier) modifier;
-					if (eModifier.isAnnotation() && annotatedWith.containsKey(eModifier.toString())) {
-						this.setRole(annotatedWith.get(eModifier.toString()));
+					if (eModifier.isAnnotation() && annotation.containsKey(eModifier.toString())) {
+						this.setRole(annotation.get(eModifier.toString()));
 						return true;
 					}
 				}
@@ -54,10 +55,27 @@ public class ClassAnnotationHeuristics implements RoleHeuristics {
 		return visitor.getRole();
 	}
 	
-	public ClassAnnotationHeuristics mapAnnotatedWith(String role, String annotation) {
-		if (this.annotatedWith == null)
-			this.annotatedWith = new HashMap<>();
-		this.annotatedWith.put(annotation, role);
+	public ClassAnnotationHeuristics mapAnnotation(String role, String annotation) {
+		if (this.annotation == null)
+			this.annotation = new HashMap<>();
+		this.annotation.put(annotation, role);
 		return this;
+	}
+	
+	public ClassAnnotationHeuristics mapAnnotations(String role, String ... annotations) {
+		for (String annotation : annotations) {
+			this.mapAnnotation(role, annotation);
+		}
+		return this;
+	}
+
+	@Override
+	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+			throws UnrecognizedHeuristicKey {
+		if (key.equals("annotation")) {
+			return this.mapAnnotations(role, parameters);
+		} else {
+			throw new UnrecognizedHeuristicKey();
+		}
 	}
 }

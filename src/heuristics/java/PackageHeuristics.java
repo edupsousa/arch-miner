@@ -7,10 +7,11 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 
 import heuristics.AnalysedFile;
-import heuristics.RoleHeuristics;
+import heuristics.ConfigurableHeuristics;
 import heuristics.RoleVisitor;
+import heuristics.UnrecognizedHeuristicKey;
 
-public class PackageHeuristics implements RoleHeuristics {
+public class PackageHeuristics implements ConfigurableHeuristics {
 	private Map<String, String> nameRegex;
 	
 	@Override
@@ -49,11 +50,23 @@ public class PackageHeuristics implements RoleHeuristics {
 		return visitor.getRole();
 	}
 	
-	public PackageHeuristics mapPackageNameRegex(String role, String regex) {
+	public PackageHeuristics mapPackageNameRegex(String role, String ... regexps) {
 		if (this.nameRegex == null)
 			this.nameRegex = new HashMap<>();
-		this.nameRegex.put(regex, role);
+		for (String regex : regexps) {
+			this.nameRegex.put(regex, role);
+		}
 		return this;
+	}
+
+	@Override
+	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+			throws UnrecognizedHeuristicKey {
+		if (key.equals("regex")) {
+			return this.mapPackageNameRegex(role, parameters);
+		} else {
+			throw new UnrecognizedHeuristicKey();
+		}
 	}
 
 }

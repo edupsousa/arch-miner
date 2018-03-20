@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import heuristics.AnalysedFile;
-import heuristics.RoleHeuristics;
+import heuristics.ConfigurableHeuristics;
+import heuristics.UnrecognizedHeuristicKey;
 
-public class FilenameHeuristics implements RoleHeuristics {
+public class FilenameHeuristics implements ConfigurableHeuristics {
 
 	protected Map<String, String> extensionMap;
 	protected Map<String, String> filenameMap;
@@ -55,5 +56,17 @@ public class FilenameHeuristics implements RoleHeuristics {
 			this.filenameMap = new HashMap<>();
 		this.filenameMap.put(filename, role);
 		return this;
+	}
+
+	@Override
+	public ConfigurableHeuristics configureHeuristic(String key, String role, String ... parameters)
+			throws UnrecognizedHeuristicKey {
+		if (key.equals("name")) {
+			return this.mapFilenames(role, parameters);
+		} else if (key.equals("extension")) {
+			return this.mapExtensions(role, parameters);
+		} else {
+			throw new UnrecognizedHeuristicKey();
+		}
 	}
 }

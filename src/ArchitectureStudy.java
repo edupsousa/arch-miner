@@ -16,7 +16,7 @@ public class ArchitectureStudy implements Study {
 		new RepositoryMining()
 			.in(GitRepository.singleProject("~/Documents/Mestrado/Projetos/springmvc-angular/alf.io"))
 			.through(Commits.onlyInHead())
-			.process(new ArchitectureVisitor(), new CSVFile("~/Documents/Mestrado/driller.csv"))
+			.process(ArchitectureVisitor.createAndConfigure("./resources/heuristics.json") , new CSVFile("~/Documents/Mestrado/driller.csv"))
 			.mine();
 	}
 

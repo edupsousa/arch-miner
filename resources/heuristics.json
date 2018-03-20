@@ -1,0 +1,53 @@
+{
+    "java":{
+        "className":{
+            "regex":{
+                "controller:*": ["\\w+Controller$"]
+            }
+        },
+        "classAnnotation":{
+            "annotation":{
+                "controller:api": ["@RestController"],
+                "controller:conventional": ["@Controller"],
+                "model:business-rules": ["@Service"],
+                "model:persistence": ["@Repository"]
+            }
+        },
+        "imports":{
+            "startsWith":{
+                "model:dao": ["ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"]
+            }
+        },
+        "package":{
+            "regex":{
+                "controller:*": [".*\\.controller(s)?(\\..*)?"],
+                "model:*": [".*\\.model(s)?(\\..*)?"]
+            }
+        }
+    },
+    "other":{
+        "fileName":{
+            "name":{
+                "configuration:docker": ["dockerfile"],
+                "configuration:gradle": ["gradlew", "gradlew.bat"],
+                "configuration:git": [".gitignore"],
+                "configuration:bower": [".bowerrc"],
+                "configuration:license": ["license"]
+            },
+            "extension":{
+                "view:page": ["htm", "html", "jsp", "jspx"],
+                "view:script": ["js", "ts", "coffee"],
+                "view:style": ["css", "sass", "less"],
+                "view:image": ["png", "gif", "jpg", "jpeg", "svg"],
+                "configuration:generic": ["xml", "json", "properties", "yml", "gradle", "config"],
+                "model:sql": ["sql"],
+                "documentation:*": ["md"]
+            }
+        },
+        "filePath":{
+            "directory":{
+                "view:*": ["webapp", "bower_components"]
+            }
+        }
+    }
+}
