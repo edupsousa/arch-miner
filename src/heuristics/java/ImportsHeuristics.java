@@ -1,7 +1,7 @@
 package heuristics.java;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
@@ -12,7 +12,7 @@ import heuristics.RoleVisitor;
 import heuristics.UnrecognizedHeuristicKey;
 
 public class ImportsHeuristics implements ConfigurableHeuristics {
-	private Map<String, String> startsWith;
+	private List<String> startsWith = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -20,10 +20,10 @@ public class ImportsHeuristics implements ConfigurableHeuristics {
 	}
 
 	@Override
-	public String getRole(AnalysedFile file) {
+	public Boolean getRole(AnalysedFile file) {
 		CompilationUnit root = file.getASTRoot();
 		if (root == null)
-			return "unknown";
+			return false;
 		
 		RoleVisitor visitor = new RoleVisitor() {
 			
@@ -37,9 +37,9 @@ public class ImportsHeuristics implements ConfigurableHeuristics {
 			}
 			
 			boolean setRoleByImport(String name) {
-				for (Map.Entry<String, String> entry : startsWith.entrySet()) {
-					if (name.startsWith(entry.getKey())) {
-						this.setRole(entry.getValue());
+				for (String entry : startsWith) {
+					if (name.startsWith(entry)) {
+						this.setMatches(true);
 						return true;
 					}
 				}
@@ -47,23 +47,21 @@ public class ImportsHeuristics implements ConfigurableHeuristics {
 			}
 		};
 		root.accept(visitor);
-		return visitor.getRole();
+		return visitor.getMatches();
 	}
 	
-	public ImportsHeuristics mapImportStartsWith(String role, String ... importStarts) {
-		if (this.startsWith == null)
-			this.startsWith = new HashMap<>();
+	public ImportsHeuristics mapImportStartsWith(String ... importStarts) {
 		for (String importStart : importStarts) {
-			this.startsWith.put(importStart, role);
+			this.startsWith.add(importStart);
 		}
 		return this;
 	}
 
 	@Override
-	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+	public ConfigurableHeuristics configureHeuristic(String key, String... parameters)
 			throws UnrecognizedHeuristicKey {
 		if (key.equals("startsWith")) {
-			return this.mapImportStartsWith(role, parameters);
+			return this.mapImportStartsWith(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
 		}

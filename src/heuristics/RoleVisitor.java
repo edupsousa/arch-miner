@@ -3,13 +3,13 @@ package heuristics;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 
 public abstract class RoleVisitor extends ASTVisitor {
-	private String role = "unknown";
+	private Boolean matches = false;
 
-	public String getRole() {
-		return role;
+	public Boolean getMatches() {
+		return matches;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setMatches(Boolean matches) {
+		this.matches = matches;
 	}
 }

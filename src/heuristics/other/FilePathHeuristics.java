@@ -1,7 +1,7 @@
 package heuristics.other;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -11,7 +11,7 @@ import heuristics.UnrecognizedHeuristicKey;
 
 public class FilePathHeuristics implements ConfigurableHeuristics {
 
-	protected Map<String, String> containsDirectoryMap;
+	protected List<String> containsDirectory = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -19,21 +19,17 @@ public class FilePathHeuristics implements ConfigurableHeuristics {
 	}
 
 	@Override
-	public String getRole(AnalysedFile file) {
+	public Boolean getRole(AnalysedFile file) {
 		String filePath = FilenameUtils.normalize(file.getPath().toLowerCase(), true);
-		for (Map.Entry<String, String> entry : this.containsDirectoryMap.entrySet()) {
-			String key = entry.getKey();
-			if (filePath.contains(key)) {
-				return entry.getValue();
+		for (String entry : this.containsDirectory) {
+			if (filePath.contains(entry)) {
+				return true;
 			}
 		}
-		return "unknown";
+		return false;
 	}
 	
-	public FilePathHeuristics mapDirectory(String role, String directory) {
-		if (this.containsDirectoryMap == null) {
-			this.containsDirectoryMap = new HashMap<>();
-		}
+	public FilePathHeuristics mapDirectory(String directory) {
 		directory = FilenameUtils.normalize(directory, true);
 		if (!directory.startsWith("/")) {
 			directory = "/".concat(directory);
@@ -41,22 +37,22 @@ public class FilePathHeuristics implements ConfigurableHeuristics {
 		if (!directory.endsWith("/")) {
 			directory = directory.concat("/");
 		}
-		this.containsDirectoryMap.put(directory, role);
+		this.containsDirectory.add(directory);
 		return this;
 	}
 	
-	public FilePathHeuristics mapDirectories(String role, String ... directories) {
+	public FilePathHeuristics mapDirectories(String ... directories) {
 		for (String directory : directories) {
-			this.mapDirectory(role, directory);
+			this.mapDirectory(directory);
 		}
 		return this;
 	}
 
 	@Override
-	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+	public ConfigurableHeuristics configureHeuristic(String key, String... parameters)
 			throws UnrecognizedHeuristicKey {
 		if (key.equals("directory")) {
-			return this.mapDirectories(role, parameters);
+			return this.mapDirectories(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
 		}

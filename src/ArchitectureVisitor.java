@@ -32,9 +32,10 @@ public class ArchitectureVisitor implements CommitVisitor {
 	public void process(SCMRepository repository, Commit commit, PersistenceMechanism writer) {
 		List<RepositoryFile> files = repository.getScm().files();
 		for (RepositoryFile file : files ) {
-			Map<String, String> roleMap = this.mappingStrategy.getRole(file);
-			for (Map.Entry<String, String> entry : roleMap.entrySet()) {
-				writer.write(file.getFullName(), entry.getKey(), entry.getValue());
+			Map<String, Boolean> roleMap = this.mappingStrategy.applyHeuristics(file);
+			for (Map.Entry<String, Boolean> entry : roleMap.entrySet()) {
+				if (entry.getValue())
+					writer.write(file.getFullName(), entry.getKey());
 			}
 		}
 	}

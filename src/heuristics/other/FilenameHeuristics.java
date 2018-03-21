@@ -1,7 +1,7 @@
 package heuristics.other;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import heuristics.AnalysedFile;
 import heuristics.ConfigurableHeuristics;
@@ -9,8 +9,8 @@ import heuristics.UnrecognizedHeuristicKey;
 
 public class FilenameHeuristics implements ConfigurableHeuristics {
 
-	protected Map<String, String> extensionMap;
-	protected Map<String, String> filenameMap;
+	protected List<String> extensions = new ArrayList<>();
+	protected List<String> filenames = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -18,53 +18,49 @@ public class FilenameHeuristics implements ConfigurableHeuristics {
 	}
 
 	@Override
-	public String getRole(AnalysedFile file) {
+	public Boolean getRole(AnalysedFile file) {
 		String filename = file.getFilename();
-		if (this.filenameMap.containsKey(filename))
-			return this.filenameMap.get(filename);
+		if (this.filenames.contains(filename))
+			return true;
 		
 		String extension = file.getExtension();
-		if (!this.extensionMap.containsKey(extension))
-			return "unknown";
+		if (this.extensions.contains(extension))
+			return true;
 		
-		return this.extensionMap.get(extension);
+		return false;
 	}
 
-	public FilenameHeuristics mapExtension(String role, String extension) {
-		if (this.extensionMap == null)
-			this.extensionMap = new HashMap<>();
-		this.extensionMap.put(extension, role);
+	public FilenameHeuristics mapExtension(String extension) {
+		this.extensions.add(extension);
 		return this;
 	}
 	
-	public FilenameHeuristics mapExtensions(String role, String ... extensions) {
+	public FilenameHeuristics mapExtensions(String ... extensions) {
 		for (String extension : extensions) {
-			this.mapExtension(role, extension);
+			this.mapExtension(extension);
 		}
 		return this;
 	}
 	
-	public FilenameHeuristics mapFilenames(String role, String ... filenames) {
+	public FilenameHeuristics mapFilenames(String ... filenames) {
 		for (String filename : filenames) {
-			this.mapFilename(role, filename);
+			this.mapFilename(filename);
 		}
 		return this;
 	}
 	
-	public FilenameHeuristics mapFilename(String role, String filename) {
-		if (this.filenameMap == null)
-			this.filenameMap = new HashMap<>();
-		this.filenameMap.put(filename, role);
+	public FilenameHeuristics mapFilename(String filename) {
+		this.filenames.add(filename);
 		return this;
 	}
 
 	@Override
-	public ConfigurableHeuristics configureHeuristic(String key, String role, String ... parameters)
+	public ConfigurableHeuristics configureHeuristic(String key, String ... parameters)
 			throws UnrecognizedHeuristicKey {
 		if (key.equals("name")) {
-			return this.mapFilenames(role, parameters);
+			return this.mapFilenames(parameters);
 		} else if (key.equals("extension")) {
-			return this.mapExtensions(role, parameters);
+			return this.mapExtensions(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
 		}

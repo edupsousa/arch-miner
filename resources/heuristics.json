@@ -10,12 +10,13 @@
                 "controller:api": ["@RestController"],
                 "controller:conventional": ["@Controller"],
                 "model:business-rules": ["@Service"],
-                "model:persistence": ["@Repository"]
+                "model:repository": ["@Repository", "@QueryRepository"]
             }
         },
         "imports":{
             "startsWith":{
-                "model:dao": ["ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"]
+                "model:dao": ["ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"],
+                "model:repository": ["ch.digitalfondue.npjt.QueryRepository"]
             }
         },
         "package":{
@@ -35,7 +36,7 @@
                 "configuration:license": ["license"]
             },
             "extension":{
-                "view:page": ["htm", "html", "jsp", "jspx"],
+                "view:page": ["htm", "html", "xhtml", "jsp", "jspx"],
                 "view:script": ["js", "ts", "coffee"],
                 "view:style": ["css", "sass", "less"],
                 "view:image": ["png", "gif", "jpg", "jpeg", "svg"],

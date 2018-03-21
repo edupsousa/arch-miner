@@ -1,8 +1,7 @@
 package heuristics.java;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
@@ -14,7 +13,7 @@ import heuristics.RoleVisitor;
 import heuristics.UnrecognizedHeuristicKey;
 
 public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
-	private Map<String, String> annotation;
+	private List<String> annotation = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -22,10 +21,10 @@ public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
 	}
 
 	@Override
-	public String getRole(AnalysedFile file) {
+	public Boolean getRole(AnalysedFile file) {
 		CompilationUnit root = file.getASTRoot();
 		if (root == null)
-			return "unknown";
+			return false;
 		
 		RoleVisitor visitor = new RoleVisitor() {
 			@Override
@@ -43,8 +42,8 @@ public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
 			boolean setRoleByAnnotation(List<?> modifiers) {
 				for (Object modifier : modifiers) {
 					IExtendedModifier eModifier = (IExtendedModifier) modifier;
-					if (eModifier.isAnnotation() && annotation.containsKey(eModifier.toString())) {
-						this.setRole(annotation.get(eModifier.toString()));
+					if (eModifier.isAnnotation() && annotation.contains(eModifier.toString())) {
+						this.setMatches(true);
 						return true;
 					}
 				}
@@ -52,28 +51,26 @@ public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
 			}
 		};
 		root.accept(visitor);
-		return visitor.getRole();
+		return visitor.getMatches();
 	}
 	
-	public ClassAnnotationHeuristics mapAnnotation(String role, String annotation) {
-		if (this.annotation == null)
-			this.annotation = new HashMap<>();
-		this.annotation.put(annotation, role);
+	public ClassAnnotationHeuristics mapAnnotation(String annotation) {
+		this.annotation.add(annotation);
 		return this;
 	}
 	
-	public ClassAnnotationHeuristics mapAnnotations(String role, String ... annotations) {
+	public ClassAnnotationHeuristics mapAnnotations(String ... annotations) {
 		for (String annotation : annotations) {
-			this.mapAnnotation(role, annotation);
+			this.mapAnnotation(annotation);
 		}
 		return this;
 	}
 
 	@Override
-	public ConfigurableHeuristics configureHeuristic(String key, String role, String... parameters)
+	public ConfigurableHeuristics configureHeuristic(String key, String... parameters)
 			throws UnrecognizedHeuristicKey {
 		if (key.equals("annotation")) {
-			return this.mapAnnotations(role, parameters);
+			return this.mapAnnotations(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
 		}
