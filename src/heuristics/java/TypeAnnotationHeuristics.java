@@ -12,12 +12,12 @@ import heuristics.ConfigurableHeuristics;
 import heuristics.RoleVisitor;
 import heuristics.UnrecognizedHeuristicKey;
 
-public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
+public class TypeAnnotationHeuristics implements ConfigurableHeuristics {
 	private List<String> annotation = new ArrayList<>();
 	
 	@Override
 	public String getName() {
-		return "class-annotation";
+		return "type-annotation";
 	}
 
 	@Override
@@ -29,9 +29,6 @@ public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
 		RoleVisitor visitor = new RoleVisitor() {
 			@Override
 			public boolean visit(TypeDeclaration node) {
-				if (node.isInterface())
-					return false;
-				
 				List<?> modifiers = node.modifiers();
 				if (setRoleByAnnotation(modifiers))
 					return false;
@@ -54,12 +51,12 @@ public class ClassAnnotationHeuristics implements ConfigurableHeuristics {
 		return visitor.getMatches();
 	}
 	
-	public ClassAnnotationHeuristics mapAnnotation(String annotation) {
+	public TypeAnnotationHeuristics mapAnnotation(String annotation) {
 		this.annotation.add(annotation);
 		return this;
 	}
 	
-	public ClassAnnotationHeuristics mapAnnotations(String ... annotations) {
+	public TypeAnnotationHeuristics mapAnnotations(String ... annotations) {
 		for (String annotation : annotations) {
 			this.mapAnnotation(annotation);
 		}

@@ -79,14 +79,14 @@
 		}
 	},
 	"controller:controller": {
-		"classAnnotation": {
+		"typeAnnotation": {
 			"annotation": [
 				"@Controller"
 			]
 		}
 	},
 	"controller:apiEndpoint": {
-		"classAnnotation": {
+		"typeAnnotation": {
 			"annotation": [
 				"@RestController"
 			]
@@ -105,7 +105,7 @@
 		}
 	},
 	"model:businessRule": {
-		"classAnnotation": {
+		"typeAnnotation": {
 			"annotation": [
 				"@Service"
 			]
@@ -131,7 +131,7 @@
 				"ch.digitalfondue.npjt.QueryRepository"
 			]
 		},
-		"classAnnotation": {
+		"typeAnnotation": {
 			"annotation": [
 				"@Repository",
 				"@QueryRepository"

@@ -1,6 +1,6 @@
 package heuristics;
 
-import heuristics.java.ClassAnnotationHeuristics;
+import heuristics.java.TypeAnnotationHeuristics;
 import heuristics.java.ClassNameHeuristics;
 import heuristics.java.ImportsHeuristics;
 import heuristics.java.PackageHeuristics;
@@ -17,8 +17,8 @@ public class HeuristicsFactory {
 			return new FilePathHeuristics();
 		case "className":
 			return new ClassNameHeuristics();
-		case "classAnnotation":
-			return new ClassAnnotationHeuristics();
+		case "typeAnnotation":
+			return new TypeAnnotationHeuristics();
 		case "imports":
 			return new ImportsHeuristics();
 		case "package":
