@@ -11,19 +11,19 @@ import role.MappingStrategyConfigurator;
 import role.RoleMappingStrategy;
 
 public class ArchitectureVisitor implements CommitVisitor {
-	
+
 	protected RoleMappingStrategy mappingStrategy;
-	
+
 	public ArchitectureVisitor() {
 		this.mappingStrategy = new RoleMappingStrategy();
 	}
-	
+
 	public static ArchitectureVisitor createAndConfigure(String configurationPath) {
 		ArchitectureVisitor visitor = new ArchitectureVisitor();
 		visitor.setStrategy(MappingStrategyConfigurator.fromJSON(configurationPath));
 		return visitor;
 	}
-	
+
 	public void setStrategy(RoleMappingStrategy strategy) {
 		this.mappingStrategy = strategy;
 	}
@@ -31,17 +31,15 @@ public class ArchitectureVisitor implements CommitVisitor {
 	@Override
 	public void process(SCMRepository repository, Commit commit, PersistenceMechanism writer) {
 		List<RepositoryFile> files = repository.getScm().files();
-		for (RepositoryFile file : files ) {
-			Map<String, Boolean> roleMap = this.mappingStrategy.applyHeuristics(file);
-			boolean unknownRole = true;
-			for (Map.Entry<String, Boolean> entry : roleMap.entrySet()) {
-				if (entry.getValue()) {
-					writer.write(file.getFullName(), entry.getKey());
-					unknownRole = false;
+		for (RepositoryFile file : files) {
+			Map<String, String> roleMap = this.mappingStrategy.applyHeuristics(file);
+			if (roleMap.size() == 0) {
+				writer.write(file.getFullName(), "unknown", "");
+			} else {
+				for (Map.Entry<String, String> entry : roleMap.entrySet()) {
+					writer.write(file.getFullName(), entry.getKey(), entry.getValue());
 				}
 			}
-			if (unknownRole)
-				writer.write(file.getFullName(), "unknown");
 		}
 	}
 }
