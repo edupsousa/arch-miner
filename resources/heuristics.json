@@ -1,54 +1,134 @@
 {
-    "java":{
-        "className":{
-            "regex":{
-                "controller:*": ["\\w+Controller$"]
-            }
-        },
-        "classAnnotation":{
-            "annotation":{
-                "controller:api": ["@RestController"],
-                "controller:conventional": ["@Controller"],
-                "model:business-rules": ["@Service"],
-                "model:repository": ["@Repository", "@QueryRepository"]
-            }
-        },
-        "imports":{
-            "startsWith":{
-                "model:dao": ["ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"],
-                "model:repository": ["ch.digitalfondue.npjt.QueryRepository"]
-            }
-        },
-        "package":{
-            "regex":{
-                "controller:*": [".*\\.controller(s)?(\\..*)?"],
-                "model:*": [".*\\.model(s)?(\\..*)?"]
-            }
-        }
-    },
-    "other":{
-        "fileName":{
-            "name":{
-                "configuration:docker": ["dockerfile"],
-                "configuration:gradle": ["gradlew", "gradlew.bat"],
-                "configuration:git": [".gitignore"],
-                "configuration:bower": [".bowerrc"],
-                "configuration:license": ["license"]
-            },
-            "extension":{
-                "view:page": ["htm", "html", "xhtml", "jsp", "jspx"],
-                "view:script": ["js", "ts", "coffee"],
-                "view:style": ["css", "sass", "less"],
-                "view:image": ["png", "gif", "jpg", "jpeg", "svg"],
-                "configuration:generic": ["xml", "json", "properties", "yml", "gradle", "config"],
-                "model:sql": ["sql"],
-                "documentation:*": ["md"]
-            }
-        },
-        "filePath":{
-            "directory":{
-                "view:*": ["webapp", "bower_components"]
-            }
-        }
-    }
+	"configuration:*": {
+		"fileName": {
+			"extension": [
+				"xml",
+				"json",
+				"properties",
+				"yml",
+				"gradle",
+				"config"
+			]
+		}
+	},
+	"controller:*": {
+		"className": {
+			"regex": [
+				"\\w+Controller$"
+			]
+		},
+		"package": {
+			"regex": [
+				".*\\.controller(s)?(\\..*)?"
+			]
+		}
+	},
+	"controller:controller": {
+		"classAnnotation": {
+			"annotation": [
+				"@Controller"
+			]
+		}
+	},
+	"controller:apiEndpoint": {
+		"classAnnotation": {
+			"annotation": [
+				"@RestController"
+			]
+		}
+	},
+	"model:*": {
+		"package": {
+			"regex": [
+				".*\\.model(s)?(\\..*)?"
+			]
+		},
+		"imports": {
+			"startsWith": [
+				"ch.digitalfondue.npjt."
+			]
+		}
+	},
+	"model:businessRule": {
+		"classAnnotation": {
+			"annotation": [
+				"@Service"
+			]
+		}
+	},
+	"model:dao": {
+		"imports": {
+			"startsWith": [
+				"ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"
+			]
+		}
+	},
+	"model:databaseQuery": {
+		"fileName": {
+			"extension": [
+				"sql"
+			]
+		}
+	},
+	"model:repository": {
+		"imports": {
+			"startsWith": [
+				"ch.digitalfondue.npjt.QueryRepository"
+			]
+		},
+		"classAnnotation": {
+			"annotation": [
+				"@Repository",
+				"@QueryRepository"
+			]
+		}
+	},
+	"view:*": {
+		"filePath": {
+			"directory": [
+				"webapp",
+				"bower_components"
+			]
+		}
+	},
+	"view:image": {
+		"fileName": {
+			"extension": [
+				"png",
+				"gif",
+				"jpg",
+				"jpeg",
+				"svg"
+			]
+		}
+	},
+	"view:page": {
+		"fileName": {
+			"extension": [
+				"htm",
+				"html",
+				"xhtml",
+				"jsp",
+				"jspx"
+			]
+		}
+	},
+	"view:script": {
+		"fileName": {
+			"extension": [
+				"js",
+				"ts",
+				"coffee"
+			]
+		}
+	},
+	"view:style": {
+		"fileName": {
+			"extension": [
+				"css",
+				"sass",
+				"less"
+			]
+		}
+	}
 }
