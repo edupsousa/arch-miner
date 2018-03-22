@@ -33,10 +33,15 @@ public class ArchitectureVisitor implements CommitVisitor {
 		List<RepositoryFile> files = repository.getScm().files();
 		for (RepositoryFile file : files ) {
 			Map<String, Boolean> roleMap = this.mappingStrategy.applyHeuristics(file);
+			boolean unknownRole = true;
 			for (Map.Entry<String, Boolean> entry : roleMap.entrySet()) {
-				if (entry.getValue())
+				if (entry.getValue()) {
 					writer.write(file.getFullName(), entry.getKey());
+					unknownRole = false;
+				}
 			}
+			if (unknownRole)
+				writer.write(file.getFullName(), "unknown");
 		}
 	}
 }
