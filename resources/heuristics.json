@@ -1,4 +1,18 @@
 {
+	"binary:class": {
+		"fileName": {
+			"extension": [
+				"class"
+			]
+		}
+	},
+	"binary:jar": {
+		"fileName": {
+			"extension": [
+				"jar"
+			]
+		}
+	},
 	"configuration:*": {
 		"fileName": {
 			"extension": [
@@ -8,6 +22,47 @@
 				"yml",
 				"gradle",
 				"config"
+			]
+		}
+	},
+	"configuration:bower": {
+		"fileName": {
+			"name": [
+				".bowerrc"
+			]
+		}
+	},
+	"configuration:docker": {
+		"fileName": {
+			"name": [
+				"dockerfile"
+			]
+		}
+	},
+	"configuration:git": {
+		"fileName": {
+			"name": [
+				".gitignore"
+			]
+		}
+	},
+	"configuration:gradle": {
+		"fileName": {
+			"name": [
+				"gradlew",
+				"gradlew.bat"
+			]
+		},
+		"filePath": {
+			"directory": [
+				".gradle"
+			]
+		}
+	},
+	"configuration:license": {
+		"fileName": {
+			"name": [
+				"license"
 			]
 		}
 	},
