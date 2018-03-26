@@ -66,18 +66,6 @@
 			]
 		}
 	},
-	"controller:*": {
-		"className": {
-			"regex": [
-				"\\w+Controller$"
-			]
-		},
-		"package": {
-			"regex": [
-				".*\\.controller(s)?(\\..*)?"
-			]
-		}
-	},
 	"controller:controller": {
 		"typeAnnotation": {
 			"annotation": [
@@ -92,21 +80,10 @@
 			]
 		}
 	},
-	"model:*": {
-		"package": {
-			"regex": [
-				".*\\.model(s)?(\\..*)?"
-			]
-		},
-		"imports": {
-			"startsWith": [
-				"ch.digitalfondue.npjt."
-			]
-		}
-	},
 	"model:businessRule": {
 		"typeAnnotation": {
 			"annotation": [
+				"@Component",
 				"@Service"
 			]
 		}
@@ -138,12 +115,9 @@
 			]
 		}
 	},
-	"view:*": {
-		"filePath": {
-			"directory": [
-				"webapp",
-				"bower_components"
-			]
+	"test:junit": {
+		"imports": {
+			"startsWith": ["org.junit."]
 		}
 	},
 	"view:image": {
