@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.repodriller.RepoDrillerException;
 import org.repodriller.persistence.PersistenceMechanism;
 import org.repodriller.util.PathUtils;
@@ -62,7 +62,7 @@ public class SQLFile implements PersistenceMechanism {
 				String raw = field.toString();
 				if (raw == null || raw.length() == 0)
 					return "null";
-				return "\"" + StringEscapeUtils.escapeCsv(raw) + "\"";
+				return "\"" + StringEscapeUtils.escapeJava(raw) + "\"";
 			}
 		})
 		.toArray(String[]::new);
