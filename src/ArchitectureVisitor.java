@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +38,7 @@ public class ArchitectureVisitor implements CommitVisitor {
 		String repositoryPath = repository.getPath();
 		for (RepositoryFile file : files) {
 			String filePath = relativePath(repositoryPath, file.getFullName());
-			Map<String, String> roleMap = this.mappingStrategy.applyHeuristics(file);
+			Map<String, String> roleMap = removeWeakRoles(this.mappingStrategy.applyHeuristics(file));
 			if (roleMap.size() == 0) {
 				writer.write(repositoryName, filePath, "unknown", "");
 			} else {
@@ -44,6 +47,20 @@ public class ArchitectureVisitor implements CommitVisitor {
 				}
 			}
 		}
+	}
+	
+	private Map<String, String> removeWeakRoles(Map<String, String> roleMap) {
+		Map<String, String> consolidatedMap = new HashMap<>(roleMap);
+		for (Map.Entry<String, String> entry : roleMap.entrySet()) {
+			if (!entry.getKey().contains("*") && entry.getKey().contains(":")) {
+				String[] splitRole = entry.getKey().split(":");
+				splitRole[splitRole.length-1] = "*";
+				String weakRole = String.join(":", splitRole);
+				consolidatedMap.remove(weakRole);
+			}
+		}
+		return consolidatedMap;
+		
 	}
 	
 	protected String getRepositoryName(String origin) {
