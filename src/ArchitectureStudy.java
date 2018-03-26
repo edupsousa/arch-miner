@@ -2,8 +2,10 @@ import org.repodriller.RepoDriller;
 import org.repodriller.RepositoryMining;
 import org.repodriller.Study;
 import org.repodriller.filter.range.Commits;
-import org.repodriller.persistence.csv.CSVFile;
+import org.repodriller.persistence.PersistenceMechanism;
 import org.repodriller.scm.GitRepository;
+
+import persistence.SQLFile;
 
 public class ArchitectureStudy implements Study {
 
@@ -13,10 +15,12 @@ public class ArchitectureStudy implements Study {
 	
 	@Override
 	public void execute() {
+		String[] columns = {"project", "file", "role", "heuristic"};
+		PersistenceMechanism outputFile = new SQLFile("~/Documents/Mestrado/springmvc-angular.sql", "roles", columns, false);
 		new RepositoryMining()
-			.in(GitRepository.singleProject("~/Documents/Mestrado/Projetos/springmvc-angular/alf.io"))
+			.in(GitRepository.allProjectsIn("/home/edupsousa/Documents/Mestrado/Projetos/springmvc-angular/"))
 			.through(Commits.onlyInHead())
-			.process(ArchitectureVisitor.createAndConfigure("./resources/heuristics.json") , new CSVFile("~/Documents/Mestrado/driller.csv"))
+			.process(ArchitectureVisitor.createAndConfigure("./resources/heuristics.json") , outputFile)
 			.mine();
 	}
 
