@@ -89,22 +89,22 @@
 	},
 	"controller:controller": {
 		"typeAnnotation": {
-			"annotation": [
-				"@Controller"
+			"names": [
+				"Controller"
 			]
 		}
 	},
 	"controller:apiEndpoint": {
 		"typeAnnotation": {
-			"annotation": [
-				"@RestController"
+			"names": [
+				"RestController"
 			]
 		}
 	},
 	"controller:managedBean": {
 		"typeAnnotation": {
-			"annotation": [
-				"@ManagedBean"
+			"names": [
+				"ManagedBean"
 			]
 		}
 	},
@@ -115,9 +115,16 @@
 	},
 	"model:businessRule": {
 		"typeAnnotation": {
-			"annotation": [
-				"@Component",
-				"@Service"
+			"names": [
+				"Component",
+				"Service"
+			]
+		}
+	},
+	"model:converter": {
+		"typeAnnotation": {
+			"names": [
+				"FacesConverter"
 			]
 		}
 	},
@@ -142,9 +149,9 @@
 			]
 		},
 		"typeAnnotation": {
-			"annotation": [
-				"@Repository",
-				"@QueryRepository"
+			"names": [
+				"Repository",
+				"QueryRepository"
 			]
 		}
 	},

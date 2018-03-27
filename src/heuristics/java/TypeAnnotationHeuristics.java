@@ -3,6 +3,7 @@ package heuristics.java;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IExtendedModifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -13,7 +14,7 @@ import heuristics.RoleVisitor;
 import heuristics.UnrecognizedHeuristicKey;
 
 public class TypeAnnotationHeuristics implements ConfigurableHeuristics {
-	private List<String> annotation = new ArrayList<>();
+	private List<String> annotationNames = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -38,10 +39,12 @@ public class TypeAnnotationHeuristics implements ConfigurableHeuristics {
 			
 			boolean setRoleByAnnotation(List<?> modifiers) {
 				for (Object modifier : modifiers) {
-					IExtendedModifier eModifier = (IExtendedModifier) modifier;
-					if (eModifier.isAnnotation() && annotation.contains(eModifier.toString())) {
-						this.setMatches(true);
-						return true;
+					if (((IExtendedModifier) modifier).isAnnotation()) {
+						Annotation ann = (Annotation)modifier;
+						if (annotationNames.contains(ann.getTypeName().toString())) {
+							this.setMatches(true);
+							return true;
+						}
 					}
 				}
 				return false;
@@ -52,7 +55,7 @@ public class TypeAnnotationHeuristics implements ConfigurableHeuristics {
 	}
 	
 	public TypeAnnotationHeuristics mapAnnotation(String annotation) {
-		this.annotation.add(annotation);
+		this.annotationNames.add(annotation);
 		return this;
 	}
 	
@@ -66,7 +69,7 @@ public class TypeAnnotationHeuristics implements ConfigurableHeuristics {
 	@Override
 	public ConfigurableHeuristics configureHeuristic(String key, String... parameters)
 			throws UnrecognizedHeuristicKey {
-		if (key.equals("annotation")) {
+		if (key.equals("names")) {
 			return this.mapAnnotations(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
