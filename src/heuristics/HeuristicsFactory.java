@@ -2,6 +2,7 @@ package heuristics;
 
 import heuristics.java.TypeAnnotationHeuristics;
 import heuristics.java.ClassNameHeuristics;
+import heuristics.java.ClassStructureHeuristics;
 import heuristics.java.ImportsHeuristics;
 import heuristics.java.PackageHeuristics;
 import heuristics.other.FilePathHeuristics;
@@ -23,6 +24,8 @@ public class HeuristicsFactory {
 			return new ImportsHeuristics();
 		case "package":
 			return new PackageHeuristics();
+		case "classStructure":
+			return new ClassStructureHeuristics();
 		default:
 			throw new UnrecognizedHeuristics();	
 		}

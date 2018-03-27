@@ -16,9 +16,9 @@ public class ArchitectureStudy implements Study {
 	@Override
 	public void execute() {
 		String[] columns = {"project", "file", "role", "heuristic"};
-		PersistenceMechanism outputFile = new SQLFile("~/Documents/Mestrado/springmvc-angular.sql", "roles", columns, false);
+		PersistenceMechanism outputFile = new SQLFile("~/Documents/Mestrado/jsf.sql", "roles", columns, false);
 		new RepositoryMining()
-			.in(GitRepository.allProjectsIn("/home/edupsousa/Documents/Mestrado/Projetos/springmvc-angular/"))
+			.in(GitRepository.allProjectsIn("/home/edupsousa/Documents/Mestrado/Projetos/jsf/"))
 			.through(Commits.onlyInHead())
 			.process(ArchitectureVisitor.createAndConfigure("./resources/heuristics.json") , outputFile)
 			.mine();

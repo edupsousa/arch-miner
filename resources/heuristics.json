@@ -32,6 +32,13 @@
 			]
 		}
 	},
+	"configuration:classpath": {
+		"fileName": {
+			"name": [
+				".classpath"
+			]
+		}
+	},
 	"configuration:docker": {
 		"fileName": {
 			"name": [
@@ -39,10 +46,24 @@
 			]
 		}
 	},
+	"configuration:eclipse": {
+		"filePath": {
+			"directory": [
+				".settings"
+			]
+		}
+	},
 	"configuration:git": {
 		"fileName": {
 			"name": [
 				".gitignore"
+			]
+		}
+	},
+	"configuration:maven": {
+		"fileName": {
+			"name": [
+				"pom.xml"
 			]
 		}
 	},
@@ -78,6 +99,18 @@
 			"annotation": [
 				"@RestController"
 			]
+		}
+	},
+	"controller:managedBean": {
+		"typeAnnotation": {
+			"annotation": [
+				"@ManagedBean"
+			]
+		}
+	},
+	"model:bean": {
+		"classStructure": {
+			"types": ["bean"]
 		}
 	},
 	"model:businessRule": {
