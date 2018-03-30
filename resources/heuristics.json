@@ -111,6 +111,11 @@
 	"model:bean": {
 		"classStructure": {
 			"types": ["bean"]
+		},
+		"imports": {
+			"startsWith": [
+				"javax.validation."
+			]
 		}
 	},
 	"model:businessRule": {
@@ -118,6 +123,13 @@
 			"names": [
 				"Component",
 				"Service"
+			]
+		}
+	},
+	"model:configuration": {
+		"typeAnnotation": {
+			"names": [
+				"Configuration"
 			]
 		}
 	},
@@ -131,6 +143,7 @@
 	"model:dao": {
 		"imports": {
 			"startsWith": [
+				"org.springframework.dao",
 				"ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"
 			]
 		}
