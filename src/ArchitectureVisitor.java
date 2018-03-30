@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +32,16 @@ public class ArchitectureVisitor implements CommitVisitor {
 	@Override
 	public void process(SCMRepository repository, Commit commit, PersistenceMechanism writer) {
 		List<RepositoryFile> files = repository.getScm().files();
-		String repositoryName = getRepositoryName(repository.getOrigin());
+		String repositoryID = getRepositoryID(repository.getPath());
 		String repositoryPath = repository.getPath();
 		for (RepositoryFile file : files) {
 			String filePath = relativePath(repositoryPath, file.getFullName());
 			Map<String, String> roleMap = removeWeakRoles(this.mappingStrategy.applyHeuristics(file));
 			if (roleMap.size() == 0) {
-				writer.write(repositoryName, filePath, "unknown", "");
+				writer.write(repositoryID, filePath, "unknown", "");
 			} else {
 				for (Map.Entry<String, String> entry : roleMap.entrySet()) {
-					writer.write(repositoryName, filePath, entry.getKey(), entry.getValue());
+					writer.write(repositoryID, filePath, entry.getKey(), entry.getValue());
 				}
 			}
 		}
@@ -63,8 +61,9 @@ public class ArchitectureVisitor implements CommitVisitor {
 		
 	}
 	
-	protected String getRepositoryName(String origin) {
-		return origin.substring("https://github.com/".length(), origin.length()-4);
+	protected String getRepositoryID(String repositoryPath) {
+		String lastDir = repositoryPath.substring(repositoryPath.lastIndexOf('/')+1);
+		return lastDir.substring(0, lastDir.lastIndexOf('-'));
 	}
 	
 	protected String relativePath(String repositoryPath, String filePath) {
