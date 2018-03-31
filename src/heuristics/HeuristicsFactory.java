@@ -1,8 +1,10 @@
 package heuristics;
 
 import heuristics.java.TypeAnnotationHeuristics;
+import heuristics.java.AnnotationHeuristics;
 import heuristics.java.ClassNameHeuristics;
 import heuristics.java.ClassStructureHeuristics;
+import heuristics.java.ExtendsHeuristics;
 import heuristics.java.ImportsHeuristics;
 import heuristics.java.PackageHeuristics;
 import heuristics.other.FilePathHeuristics;
@@ -26,6 +28,10 @@ public class HeuristicsFactory {
 			return new PackageHeuristics();
 		case "classStructure":
 			return new ClassStructureHeuristics();
+		case "annotation":
+			return new AnnotationHeuristics();
+		case "extends":
+			return new ExtendsHeuristics();
 		default:
 			throw new UnrecognizedHeuristics();	
 		}

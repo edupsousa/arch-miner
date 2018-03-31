@@ -1,18 +1,4 @@
 {
-	"binary:class": {
-		"fileName": {
-			"extension": [
-				"class"
-			]
-		}
-	},
-	"binary:jar": {
-		"fileName": {
-			"extension": [
-				"jar"
-			]
-		}
-	},
 	"configuration:*": {
 		"fileName": {
 			"extension": [
@@ -78,139 +64,128 @@
 			"directory": [
 				".gradle"
 			]
-		}
-	},
-	"configuration:license": {
-		"fileName": {
-			"name": [
-				"license"
-			]
-		}
-	},
-	"controller:controller": {
-		"typeAnnotation": {
-			"names": [
-				"Controller"
-			]
-		}
-	},
-	"controller:apiEndpoint": {
-		"typeAnnotation": {
-			"names": [
-				"RestController"
-			]
-		}
-	},
-	"controller:managedBean": {
-		"typeAnnotation": {
-			"names": [
-				"ManagedBean"
-			]
-		}
-	},
-	"model:bean": {
-		"classStructure": {
-			"types": ["bean"]
 		},
-		"imports": {
-			"startsWith": [
-				"javax.validation."
-			]
-		}
-	},
-	"model:businessRule": {
-		"typeAnnotation": {
-			"names": [
-				"Component",
-				"Service"
-			]
-		}
-	},
-	"model:configuration": {
-		"typeAnnotation": {
-			"names": [
-				"Configuration"
-			]
-		}
-	},
-	"model:converter": {
-		"typeAnnotation": {
-			"names": [
-				"FacesConverter"
-			]
-		}
-	},
-	"model:dao": {
-		"imports": {
-			"startsWith": [
-				"org.springframework.dao",
-				"ch.digitalfondue.npjt.ConstructorAnnotationRowMapper.Column"
-			]
-		}
-	},
-	"model:databaseQuery": {
-		"fileName": {
-			"extension": [
-				"sql"
-			]
-		}
-	},
-	"model:repository": {
-		"imports": {
-			"startsWith": [
-				"ch.digitalfondue.npjt.QueryRepository"
-			]
+		"spring:application": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.boot.autoconfigure.SpringBootApplication"
+				]
+			}
 		},
-		"typeAnnotation": {
-			"names": [
-				"Repository",
-				"QueryRepository"
-			]
-		}
-	},
-	"test:junit": {
-		"imports": {
-			"startsWith": ["org.junit."]
-		}
-	},
-	"view:image": {
-		"fileName": {
-			"extension": [
-				"png",
-				"gif",
-				"jpg",
-				"jpeg",
-				"svg"
-			]
-		}
-	},
-	"view:page": {
-		"fileName": {
-			"extension": [
-				"htm",
-				"html",
-				"xhtml",
-				"jsp",
-				"jspx"
-			]
-		}
-	},
-	"view:script": {
-		"fileName": {
-			"extension": [
-				"js",
-				"ts",
-				"coffee"
-			]
-		}
-	},
-	"view:style": {
-		"fileName": {
-			"extension": [
-				"css",
-				"sass",
-				"less"
-			]
+		"spring:configuration": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.context.annotation.Configuration"
+				]
+			}
+		},
+		"spring:controller": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.stereotype.Controller"
+				]
+			}
+		},
+		"spring:restcontroller": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.web.bind.annotation.RestController"
+				]
+			}
+		},
+		"spring:service": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.stereotype.Service"
+				]
+			}
+		},
+		"model:bean": {
+			"classStructure": {
+				"types": [
+					"bean"
+				]
+			}
+		},
+		"model:entity": {
+			"annotation": {
+				"onClass": [
+					"javax.persistence.Entity",
+					"org.neo4j.ogm.annotation.NodeEntity",
+					"org.springframework.data.gemfire.mapping.annotation.Region",
+					"org.springframework.data.mongodb.core.mapping.Document"
+				],
+				"onField": [
+					"org.springframework.data.annotation.Id"
+				]
+			}
+		},
+		"springdata:repository": {
+			"annotation": {
+				"onInterface": [
+					"org.springframework.data.rest.core.annotation.RepositoryRestResource"
+				]
+			},
+			"extends": {
+				"interface": [
+					"org.springframework.data.repository.Repository",
+					"org.springframework.data.repository.CrudRepository",
+					"org.springframework.data.mongodb.repository.MongoRepository",
+					"org.springframework.data.repository.PagingAndSortingRepository",
+					"org.springframework.data.jpa.repository.JpaRepository"
+				]
+			}
+		},
+		"view:image": {
+			"fileName": {
+				"extension": [
+					"png",
+					"gif",
+					"jpg",
+					"jpeg",
+					"svg"
+				]
+			}
+		},
+		"view:page": {
+			"fileName": {
+				"extension": [
+					"htm",
+					"html",
+					"xhtml",
+					"jsp",
+					"jspx"
+				]
+			}
+		},
+		"view:script": {
+			"fileName": {
+				"extension": [
+					"js",
+					"ts",
+					"coffee"
+				]
+			}
+		},
+		"view:style": {
+			"fileName": {
+				"extension": [
+					"css",
+					"sass",
+					"less"
+				]
+			}
+		},
+		"test:junit": {
+			"annotation": {
+				"onClass": [
+					"org.junit.runner.RunWith"
+				]
+			},
+			"imports": {
+				"startsWith": [
+					"org.junit."
+				]
+			}
 		}
 	}
-}

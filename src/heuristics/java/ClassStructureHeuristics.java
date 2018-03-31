@@ -1,5 +1,8 @@
 package heuristics.java;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
@@ -12,6 +15,7 @@ import heuristics.UnrecognizedHeuristicKey;
 
 public class ClassStructureHeuristics implements ConfigurableHeuristics {
 	
+	private List<String> objectMethods = Arrays.asList(new String[] {"clone","equals","finalize","getClass","hashCode","notify","notifyAll","toString","wait"});
 	private boolean matchBeans = false;
 
 	@Override
@@ -31,6 +35,7 @@ public class ClassStructureHeuristics implements ConfigurableHeuristics {
 			private int constructorsCount = 0;
 			private int fieldsCount = 0;
 			private int otherMethodsCount = 0;
+			private int objectMethodsCount = 0;
 			
 			@Override
 			public boolean visit(TypeDeclaration node) {
@@ -43,6 +48,8 @@ public class ClassStructureHeuristics implements ConfigurableHeuristics {
 			public boolean visit(MethodDeclaration method) {
 				if (method.isConstructor()) {
 					constructorsCount++;
+				} else if (objectMethods.contains(method.getName().getIdentifier())) {
+					objectMethodsCount++;
 				} else if (method.getName().getIdentifier().length() > 3) {
 					if (method.getName().getIdentifier().substring(0, 3).equals("get")) {
 						gettersCount++;
@@ -64,7 +71,7 @@ public class ClassStructureHeuristics implements ConfigurableHeuristics {
 			@Override
 			public Boolean getMatches() {
 				if (matchBeans) {
-					if (constructorsCount >= 0 && gettersCount > 0 && settersCount > 0 && fieldsCount > 0 && otherMethodsCount == 0) {
+					if (constructorsCount >= 0 && gettersCount > 0 && settersCount > 0 && fieldsCount > 0 && objectMethodsCount >= 0 && otherMethodsCount == 0) {
 						return true;
 					}
 				}
