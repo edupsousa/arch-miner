@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import heuristics.ConfigurableHeuristics;
 import heuristics.HeuristicsFactory;
+import postprocessors.PostProcessorFactory;
+import postprocessors.RolePostProcessor;
 
 public class MappingStrategyConfigurator {
 	public static RoleMappingStrategy fromJSON(String path) {
@@ -17,6 +19,22 @@ public class MappingStrategyConfigurator {
 		JSONObject config = new JSONObject(jsonContents);		
 		RoleMappingStrategy strategy = new RoleMappingStrategy();
 		
+		strategy = configureHeuristics(config.getJSONObject("heuristics"), strategy);
+		strategy = configurePostProcessors(config.getJSONObject("postProcessors"), strategy);
+		
+		return strategy;
+	}
+	
+	private static RoleMappingStrategy configurePostProcessors(JSONObject config, RoleMappingStrategy strategy) {
+		for (String postProcessorName : config.keySet()) {
+			RolePostProcessor rpp = PostProcessorFactory.createPostProcessor(postProcessorName);
+			strategy.addPostProcessor(rpp);
+		}
+		
+		return strategy;
+	}
+
+	private static RoleMappingStrategy configureHeuristics(JSONObject config, RoleMappingStrategy strategy) {
 		for (String layer : config.keySet()) {
 			JSONObject layerHeuristics = config.getJSONObject(layer);
 			for (String heuristicName : layerHeuristics.keySet()) {
@@ -29,7 +47,6 @@ public class MappingStrategyConfigurator {
 				}
 			}
 		}
-		
 		return strategy;
 	}
 
