@@ -46,10 +46,31 @@
 			]
 		}
 	},
+	"configuration:hibernate": {
+		"fileName": {
+			"regex": [
+				".*\\.hbm\\.xml"
+			]
+		}
+	},
+	"configuration:jpa": {
+		"fileName": {
+			"name": [
+				"persistence.xml"
+			]
+		}
+	},
 	"configuration:maven": {
 		"fileName": {
 			"name": [
 				"pom.xml"
+			]
+		}
+	},
+	"configuration:package-info": {
+		"fileName": {
+			"name": [
+				"package-info.java"
 			]
 		}
 	},
@@ -64,128 +85,160 @@
 			"directory": [
 				".gradle"
 			]
+		}
+	},
+	"exception:*": {
+		"className": {
+			"regex": [
+				".*Exception"
+			]
+		}
+	},
+	"servlet:filter": {
+		"annotation": {
+			"onClass": [
+				"javax.servlet.annotation.WebFilter"
+			]
+		}
+	},
+	"servlet:webservlet": {
+		"annotation": {
+			"onClass": [
+				"javax.servlet.annotation.WebServlet"
+			]
+		}
+	},
+	"jsf:managedBean": {
+		"annotation": {
+			"onClass": [
+				"javax.faces.bean.ManagedBean"
+			]
+		}
+	},
+	"spring:application": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.boot.autoconfigure.SpringBootApplication"
+			]
+		}
+	},
+	"spring:configuration": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.context.annotation.Configuration"
+			]
+		}
+	},
+	"spring:controller": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.stereotype.Controller"
+			]
+		}
+	},
+	"spring:restcontroller": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.web.bind.annotation.RestController"
+			]
+		}
+	},
+	"spring:service": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.stereotype.Service"
+			]
+		}
+	},
+	"model:entity": {
+		"annotation": {
+			"onClass": [
+				"javax.persistence.Entity",
+				"org.neo4j.ogm.annotation.NodeEntity",
+				"org.springframework.data.gemfire.mapping.annotation.Region",
+				"org.springframework.data.mongodb.core.mapping.Document"
+			],
+			"onField": [
+				"org.springframework.data.annotation.Id"
+			]
+		}
+	},
+	"model:repository": {
+		"annotation": {
+			"onClass": [
+				"org.springframework.stereotype.Repository"
+			],
+			"onInterface": [
+				"org.springframework.data.rest.core.annotation.RepositoryRestResource"
+			]
 		},
-		"spring:application": {
-			"annotation": {
-				"onClass": [
-					"org.springframework.boot.autoconfigure.SpringBootApplication"
-				]
-			}
+		"extends": {
+			"interface": [
+				"org.springframework.data.repository.Repository",
+				"org.springframework.data.repository.CrudRepository",
+				"org.springframework.data.mongodb.repository.MongoRepository",
+				"org.springframework.data.repository.PagingAndSortingRepository",
+				"org.springframework.data.jpa.repository.JpaRepository"
+			]
+		}
+	},
+	"jsf:repository": {
+		"imports": {
+			"startsWith": [
+				"javax.persistence.Query"
+			]
+		}
+	},
+	"view:image": {
+		"fileName": {
+			"extension": [
+				"png",
+				"gif",
+				"jpg",
+				"jpeg",
+				"svg"
+			]
+		}
+	},
+	"view:page": {
+		"fileName": {
+			"extension": [
+				"htm",
+				"html",
+				"xhtml",
+				"jsp",
+				"jspx"
+			]
+		}
+	},
+	"view:script": {
+		"fileName": {
+			"extension": [
+				"js",
+				"ts",
+				"coffee"
+			]
+		}
+	},
+	"view:style": {
+		"fileName": {
+			"extension": [
+				"css",
+				"sass",
+				"less"
+			]
+		}
+	},
+	"test:junit": {
+		"annotation": {
+			"onClass": [
+				"org.junit.runner.RunWith"
+			]
 		},
-		"spring:configuration": {
-			"annotation": {
-				"onClass": [
-					"org.springframework.context.annotation.Configuration"
-				]
-			}
-		},
-		"spring:controller": {
-			"annotation": {
-				"onClass": [
-					"org.springframework.stereotype.Controller"
-				]
-			}
-		},
-		"spring:restcontroller": {
-			"annotation": {
-				"onClass": [
-					"org.springframework.web.bind.annotation.RestController"
-				]
-			}
-		},
-		"spring:service": {
-			"annotation": {
-				"onClass": [
-					"org.springframework.stereotype.Service"
-				]
-			}
-		},
-		"model:bean": {
-			"classStructure": {
-				"types": [
-					"bean"
-				]
-			}
-		},
-		"model:entity": {
-			"annotation": {
-				"onClass": [
-					"javax.persistence.Entity",
-					"org.neo4j.ogm.annotation.NodeEntity",
-					"org.springframework.data.gemfire.mapping.annotation.Region",
-					"org.springframework.data.mongodb.core.mapping.Document"
-				],
-				"onField": [
-					"org.springframework.data.annotation.Id"
-				]
-			}
-		},
-		"springdata:repository": {
-			"annotation": {
-				"onInterface": [
-					"org.springframework.data.rest.core.annotation.RepositoryRestResource"
-				]
-			},
-			"extends": {
-				"interface": [
-					"org.springframework.data.repository.Repository",
-					"org.springframework.data.repository.CrudRepository",
-					"org.springframework.data.mongodb.repository.MongoRepository",
-					"org.springframework.data.repository.PagingAndSortingRepository",
-					"org.springframework.data.jpa.repository.JpaRepository"
-				]
-			}
-		},
-		"view:image": {
-			"fileName": {
-				"extension": [
-					"png",
-					"gif",
-					"jpg",
-					"jpeg",
-					"svg"
-				]
-			}
-		},
-		"view:page": {
-			"fileName": {
-				"extension": [
-					"htm",
-					"html",
-					"xhtml",
-					"jsp",
-					"jspx"
-				]
-			}
-		},
-		"view:script": {
-			"fileName": {
-				"extension": [
-					"js",
-					"ts",
-					"coffee"
-				]
-			}
-		},
-		"view:style": {
-			"fileName": {
-				"extension": [
-					"css",
-					"sass",
-					"less"
-				]
-			}
-		},
-		"test:junit": {
-			"annotation": {
-				"onClass": [
-					"org.junit.runner.RunWith"
-				]
-			},
-			"imports": {
-				"startsWith": [
-					"org.junit."
-				]
-			}
+		"imports": {
+			"startsWith": [
+				"org.junit."
+			]
 		}
 	}
+}
