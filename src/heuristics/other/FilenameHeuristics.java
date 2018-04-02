@@ -11,6 +11,7 @@ public class FilenameHeuristics implements ConfigurableHeuristics {
 
 	protected List<String> extensions = new ArrayList<>();
 	protected List<String> filenames = new ArrayList<>();
+	protected List<String> regexps = new ArrayList<>();
 	
 	@Override
 	public String getName() {
@@ -27,30 +28,33 @@ public class FilenameHeuristics implements ConfigurableHeuristics {
 		if (this.extensions.contains(extension))
 			return true;
 		
+		for (String regex : this.regexps) {
+			if (filename.matches(regex)) {
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
-	public FilenameHeuristics mapExtension(String extension) {
-		this.extensions.add(extension);
-		return this;
-	}
-	
 	public FilenameHeuristics mapExtensions(String ... extensions) {
 		for (String extension : extensions) {
-			this.mapExtension(extension);
+			this.extensions.add(extension);
 		}
 		return this;
 	}
 	
 	public FilenameHeuristics mapFilenames(String ... filenames) {
 		for (String filename : filenames) {
-			this.mapFilename(filename);
+			this.filenames.add(filename);
 		}
 		return this;
 	}
 	
-	public FilenameHeuristics mapFilename(String filename) {
-		this.filenames.add(filename);
+	public FilenameHeuristics mapRegexps(String ... regexps) {
+		for (String regex : regexps) {
+			this.regexps.add(regex);
+		}
 		return this;
 	}
 
@@ -61,6 +65,8 @@ public class FilenameHeuristics implements ConfigurableHeuristics {
 			return this.mapFilenames(parameters);
 		} else if (key.equals("extension")) {
 			return this.mapExtensions(parameters);
+		} else if (key.equals("regex")) {
+			return this.mapRegexps(parameters);
 		} else {
 			throw new UnrecognizedHeuristicKey();
 		}
