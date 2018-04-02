@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.repodriller.domain.Modification;
 import org.repodriller.scm.RepositoryFile;
 
 import heuristics.AnalysedFile;
@@ -33,9 +34,9 @@ public class RoleMappingStrategy {
 		return this;
 	}
 
-	public AnalysedFile applyHeuristics(RepositoryFile repositoryFile) {
+	public AnalysedFile applyHeuristics(Modification modification) {
 		HashMap<String, String> results = new HashMap<>();
-		AnalysedFile file = new AnalysedFile(repositoryFile);
+		AnalysedFile file = new AnalysedFile(modification);
 		for (Map.Entry<String, List<RoleHeuristics>> entry : this.heuristics.entrySet()) {
 			for (RoleHeuristics heuristic : entry.getValue()) {
 				if (heuristic.getRole(file)) {

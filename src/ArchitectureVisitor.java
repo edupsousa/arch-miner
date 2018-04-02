@@ -1,10 +1,11 @@
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.repodriller.domain.Commit;
+import org.repodriller.domain.Modification;
 import org.repodriller.persistence.PersistenceMechanism;
 import org.repodriller.scm.CommitVisitor;
-import org.repodriller.scm.RepositoryFile;
 import org.repodriller.scm.SCMRepository;
 
 import heuristics.AnalysedFile;
@@ -14,6 +15,7 @@ import role.RoleMappingStrategy;
 public class ArchitectureVisitor implements CommitVisitor {
 
 	protected RoleMappingStrategy mappingStrategy;
+	private Set<String> visitedFiles = new HashSet<>();
 
 	public ArchitectureVisitor() {
 		this.mappingStrategy = new RoleMappingStrategy();
@@ -31,12 +33,16 @@ public class ArchitectureVisitor implements CommitVisitor {
 
 	@Override
 	public void process(SCMRepository repository, Commit commit, PersistenceMechanism writer) {
-		List<RepositoryFile> files = repository.getScm().files();
 		String repositoryID = getRepositoryID(repository.getPath());
-		String repositoryPath = repository.getPath();
-		for (RepositoryFile repoFile : files) {
-			AnalysedFile file = this.mappingStrategy.applyHeuristics(repoFile);
-			String filePath = relativePath(repositoryPath, repoFile.getFullName());
+	
+		for (Modification mod : commit.getModifications()) {
+			if (mod.wasDeleted())
+				continue;
+			String filePath = mod.getNewPath();
+			if (visitedFiles.contains(filePath))
+				continue;
+			visitedFiles.add(filePath);
+			AnalysedFile file = this.mappingStrategy.applyHeuristics(mod);
 			Map<String, String> roleMap = file.getRoles();
 			if (roleMap.size() == 0) {
 				writer.write(repositoryID, filePath, "unknown", "");
