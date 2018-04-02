@@ -1,5 +1,8 @@
 package heuristics;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.io.FilenameUtils;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
@@ -10,12 +13,21 @@ import org.repodriller.scm.RepositoryFile;
 public class AnalysedFile {
 	private RepositoryFile file;
 	private CompilationUnit astRoot = null;
+	private Map<String, String> roles = new HashMap<>();
 
 	public AnalysedFile(RepositoryFile file) {
 		super();
 		this.file = file;
 	}
 	
+	public Map<String, String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Map<String, String> roles) {
+		this.roles = roles;
+	}
+
 	public String getExtension() {
 		return FilenameUtils.getExtension(file.getFile().getName()).toLowerCase();
 	}

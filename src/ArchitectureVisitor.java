@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import org.repodriller.scm.CommitVisitor;
 import org.repodriller.scm.RepositoryFile;
 import org.repodriller.scm.SCMRepository;
 
+import heuristics.AnalysedFile;
 import role.MappingStrategyConfigurator;
 import role.RoleMappingStrategy;
 
@@ -34,9 +34,10 @@ public class ArchitectureVisitor implements CommitVisitor {
 		List<RepositoryFile> files = repository.getScm().files();
 		String repositoryID = getRepositoryID(repository.getPath());
 		String repositoryPath = repository.getPath();
-		for (RepositoryFile file : files) {
-			String filePath = relativePath(repositoryPath, file.getFullName());
-			Map<String, String> roleMap = removeWeakRoles(this.mappingStrategy.applyHeuristics(file));
+		for (RepositoryFile repoFile : files) {
+			AnalysedFile file = this.mappingStrategy.applyHeuristics(repoFile);
+			String filePath = relativePath(repositoryPath, repoFile.getFullName());
+			Map<String, String> roleMap = file.getRoles();
 			if (roleMap.size() == 0) {
 				writer.write(repositoryID, filePath, "unknown", "");
 			} else {
@@ -45,20 +46,6 @@ public class ArchitectureVisitor implements CommitVisitor {
 				}
 			}
 		}
-	}
-	
-	private Map<String, String> removeWeakRoles(Map<String, String> roleMap) {
-		Map<String, String> consolidatedMap = new HashMap<>(roleMap);
-		for (Map.Entry<String, String> entry : roleMap.entrySet()) {
-			if (!entry.getKey().contains("*") && entry.getKey().contains(":")) {
-				String[] splitRole = entry.getKey().split(":");
-				splitRole[splitRole.length-1] = "*";
-				String weakRole = String.join(":", splitRole);
-				consolidatedMap.remove(weakRole);
-			}
-		}
-		return consolidatedMap;
-		
 	}
 	
 	protected String getRepositoryID(String repositoryPath) {
