@@ -1,0 +1,121 @@
+{
+	"heuristics": {
+		"mixed:configuration": {
+			"fileName": {
+				"extension": [
+					"xml",
+					"json",
+					"properties",
+					"yml",
+					"gradle",
+					"config"
+				],
+				"name": [
+					".bowerrc",
+					".classpath",
+					"dockerfile",
+					".gitignore"
+				]
+			},
+			"filePath": {
+				"directory": [
+					".gradle",
+					".settings"
+				]
+			}
+		},
+		"backend:endpoint": {
+			"annotation": {
+				"onClass": [
+					"javax.servlet.annotation.WebFilter",
+					"javax.servlet.annotation.WebServlet",
+					"javax.faces.bean.ManagedBean",
+					"org.springframework.stereotype.Controller",
+					"org.springframework.web.bind.annotation.RestController"
+				]
+			}
+		},
+		"backend:service": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.context.annotation.Configuration",
+					"org.springframework.stereotype.Service",
+					"org.springframework.stereotype.Component",
+					"javax.ejb.Stateless",
+					"javax.ejb.Stateful"
+				],
+				"onInterface": [
+					"javax.ejb.Remote",
+					"javax.ejb.Local"
+				]
+			}
+		},
+		"backend:entity": {
+			"annotation": {
+				"onClass": [
+					"javax.persistence.Entity",
+					"org.neo4j.ogm.annotation.NodeEntity",
+					"org.springframework.data.gemfire.mapping.annotation.Region",
+					"org.springframework.data.mongodb.core.mapping.Document"
+				],
+				"onField": [
+					"org.springframework.data.annotation.Id"
+				]
+			}
+		},
+		"backend:dao": {
+			"annotation": {
+				"onClass": [
+					"org.springframework.stereotype.Repository"
+				],
+				"onInterface": [
+					"org.springframework.data.rest.core.annotation.RepositoryRestResource"
+				]
+			},
+			"extends": {
+				"interface": [
+					"org.springframework.data.repository.Repository",
+					"org.springframework.data.repository.CrudRepository",
+					"org.springframework.data.mongodb.repository.MongoRepository",
+					"org.springframework.data.repository.PagingAndSortingRepository",
+					"org.springframework.data.jpa.repository.JpaRepository"
+				]
+			},
+			"imports": {
+				"startsWith": [
+					"javax.persistence.Query"
+				]
+			}
+		},
+		"frontend:page": {
+			"fileName": {
+				"extension": [
+					"htm",
+					"html",
+					"xhtml",
+					"jsp",
+					"jspx"
+				]
+			}
+		},
+		"frontend:script": {
+			"fileName": {
+				"extension": [
+					"js",
+					"ts",
+					"coffee"
+				]
+			}
+		},
+		"frontend:style": {
+			"fileName": {
+				"extension": [
+					"css",
+					"sass",
+					"less"
+				]
+			}
+		}
+	},
+	"postProcessors": {}
+}
